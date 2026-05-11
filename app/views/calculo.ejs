@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de NF</title>
+</head>
+
+<body>
+
+  <nav>
+    <div>
+      🧾 Cálculo de NF
+    </div>
+
+    <div>
+      Olá, <strong><%= user.nome %></strong>
+      <a href="/logout">Sair</a>
+    </div>
+  </nav>
+
+  <h2>Calculadora de Nota Fiscal</h2>
+
+  <form method="POST" action="/calcular" id="calculoForm">
+
+    <div>
+      <label for="valorProduto">Valor do Produto</label>
+      <input 
+        type="number"
+        id="valorProduto"
+        name="valorProduto"
+        placeholder="Digite o valor do produto"
+        required
+      >
+    </div>
+
+    <div>
+      <label for="icms">ICMS (%)</label>
+      <input 
+        type="number"
+        id="icms"
+        name="icms"
+        placeholder="Digite o ICMS"
+        required
+      >
+    </div>
+
+    <div>
+      <label for="ipi">IPI (%)</label>
+      <input 
+        type="number"
+        id="ipi"
+        name="ipi"
+        placeholder="Digite o IPI"
+        required
+      >
+    </div>
+
+    <div>
+      <label for="pis">PIS (%)</label>
+      <input 
+        type="number"
+        id="pis"
+        name="pis"
+        placeholder="Digite o PIS"
+        required
+      >
+    </div>
+
+    <div>
+      <label for="cofins">COFINS (%)</label>
+      <input 
+        type="number"
+        id="cofins"
+        name="cofins"
+        placeholder="Digite o COFINS"
+        required
+      >
+    </div>
+
+  </form>
+
+  <button id="btnCalcular" onclick="calcular()">
+    Calcular NF
+  </button>
+
+  <hr>
+
+  <h3>Resultado</h3>
+
+  <div>
+    <p>ICMS: <span id="valorICMS">-</span></p>
+    <p>IPI: <span id="valorIPI">-</span></p>
+    <p>PIS: <span id="valorPIS">-</span></p>
+    <p>COFINS: <span id="valorCOFINS">-</span></p>
+
+    <h2>Total da Nota: <span id="totalNF">-</span></h2>
+  </div>
+
+</body>
+
+<script>
+
+async function calcular() {
+
+  const valorProduto = parseFloat(document.getElementById('valorProduto').value);
+  const icms = parseFloat(document.getElementById('icms').value);
+  const ipi = parseFloat(document.getElementById('ipi').value);
+  const pis = parseFloat(document.getElementById('pis').value);
+  const cofins = parseFloat(document.getElementById('cofins').value);
+
+  const payload = {
+    valorProduto,
+    icms,
+    ipi,
+    pis,
+    cofins
+  };
+
+  console.log(payload);
+
+  try {
+
+    const res = await fetch('/calcular', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const json = await res.json();
+
+    console.log(json);
+
+    if (!json.success) {
+      alert('Erro: ' + json.error);
+      return;
+    }
+
+    const d = json.data;
+
+    document.getElementById('valorICMS').textContent =
+      d.valorICMS.toFixed(2);
+
+    document.getElementById('valorIPI').textContent =
+      d.valorIPI.toFixed(2);
+
+    document.getElementById('valorPIS').textContent =
+      d.valorPIS.toFixed(2);
+
+    document.getElementById('valorCOFINS').textContent =
+      d.valorCOFINS.toFixed(2);
+
+    document.getElementById('totalNF').textContent =
+      d.total.toFixed(2);
+
+  } catch (e) {
+
+    alert('Erro ao comunicar com o servidor: ' + e.message);
+
+  }
+}
+
+</script>
+
+</html>
