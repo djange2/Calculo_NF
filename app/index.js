@@ -19,15 +19,13 @@ app.use(session({
   cookie: { maxAge: 3600000 },
 }));
 
-// Middleware de autenticação
 function requireAuth(req, res, next) {
   if (req.session && req.session.user) return next();
   res.redirect('/login');
 }
 
 // ── Rotas públicas ────────────────────────────────────────
-app.get('/', (req, res) => res.redirect('/splash'));
-
+app.get('/',       (req, res) => res.redirect('/splash'));
 app.get('/splash', (req, res) => res.render('splash'));
 
 app.get('/login', (req, res) => {
@@ -50,15 +48,17 @@ app.get('/logout', (req, res) => {
 });
 
 // ── Rotas protegidas ──────────────────────────────────────
-app.get('/calculo',   requireAuth, (req, res) => res.render('calculo', { user: req.session.user }));
-app.get('/sobre',     requireAuth, (req, res) => res.render('sobre',   { user: req.session.user }));
-app.get('/help',      requireAuth, (req, res) => res.render('help',    { user: req.session.user }));
+app.get('/calculo',   requireAuth, (req, res) => res.render('calculo',   { user: req.session.user }));
+app.get('/multiplos', requireAuth, (req, res) => res.render('multiplos', { user: req.session.user }));
+app.get('/inverso',   requireAuth, (req, res) => res.render('inverso',   { user: req.session.user }));
+app.get('/sobre',     requireAuth, (req, res) => res.render('sobre',     { user: req.session.user }));
+app.get('/help',      requireAuth, (req, res) => res.render('help',      { user: req.session.user }));
 
-// Proxy para a API
-app.post('/calcular', requireAuth, async (req, res) => {
+// ── Proxies para a API ────────────────────────────────────
+async function proxyAPI(endpoint, req, res) {
   try {
     const fetch = (await import('node-fetch')).default;
-    const response = await fetch(`${API_URL}/api/calcular`, {
+    const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req.body),
@@ -68,10 +68,14 @@ app.post('/calcular', requireAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-});
+}
+
+app.post('/calcular',          requireAuth, (req, res) => proxyAPI('/api/calcular',           req, res));
+app.post('/calcular-multiplos',requireAuth, (req, res) => proxyAPI('/api/calcular-multiplos', req, res));
+app.post('/calcular-inverso',  requireAuth, (req, res) => proxyAPI('/api/calcular-inverso',   req, res));
 
 app.listen(PORT, () => {
-  console.log(`Rodando: http://localhost:${PORT}`);
+  console.log(`App rodando: http://localhost:${PORT}`);
 });
 
 module.exports = app;

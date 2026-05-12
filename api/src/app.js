@@ -71,4 +71,17 @@ app.post('/api/calcular', (req, res) => {
 
 });
 
+app.post('/api/calcular-inverso', (req, res) => {
+  try {
+    const { calcularNFInverso } = require('./funcoes');
+    if (!req.body || typeof req.body !== 'object') {
+      return res.status(400).json({ success: false, error: 'Corpo da requisição inválido' });
+    }
+    const resultado = calcularNFInverso(req.body);
+    return res.status(200).json({ success: true, data: resultado });
+  } catch (err) {
+    return res.status(400).json({ success: false, error: err.message });
+  }
+});
+
 module.exports = app;
