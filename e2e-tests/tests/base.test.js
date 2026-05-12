@@ -115,7 +115,7 @@ async function main() {
 
     console.log('TOTAL:', total);
 
-    if (!total.includes('1322.50')) {
+    if (!total.includes('1322,50')) {
 
       throw new Error(
         `Resultado incorreto: ${total}`
