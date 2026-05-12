@@ -1,18 +1,22 @@
 {
-  "name": "gceic",
+  "name": "gceic-calculo-nf",
   "version": "1.0.0",
-  "description": "Exemplo para testes",
+  "description": "API de Cálculo de Nota Fiscal - GCEIC26",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest --coverage --verbose --ci --reporters=default --testResultsProcessor=jest-junit"
+    "dev": "nodemon index.js",
+    "test": "jest --coverage --verbose --ci --reporters=default --reporters=jest-junit"
   },
-  "keywords": [
-    "teste",
-    "CI",
-    "CD"
-  ],
-  "author": "SLMM",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "jest-junit": {
+    "outputDirectory": ".",
+    "outputName": "junit.xml"
+  },
+  "keywords": ["NF", "impostos", "CI", "CD"],
+  "author": "GCEIC26",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
@@ -20,8 +24,9 @@
     "helmet": "^8.1.0"
   },
   "devDependencies": {
-    "jest": "^30.3.0",
-    "jest-junit": "^17.0.0",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "nodemon": "^3.1.14",
     "supertest": "^7.2.2"
   }
 }
