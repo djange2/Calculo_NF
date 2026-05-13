@@ -9,8 +9,6 @@ const TABELA = {
 
 function calcularNF(dados) {
 
-  console.log(dados);
-
   const {
     valorProduto = 0,
     icms = 0,

@@ -40,8 +40,6 @@ app.post('/api/calcular', (req, res) => {
 
     const dados = req.body;
 
-    console.log(dados);
-
     if (!dados || typeof dados !== 'object') {
       return res.status(400).json({
         success: false,
@@ -51,16 +49,12 @@ app.post('/api/calcular', (req, res) => {
 
     const resultado = calcularNF(dados);
 
-    console.log(resultado);
-
     return res.status(200).json({
       success: true,
       data: resultado
     });
 
   } catch (err) {
-
-    console.log(err.message);
 
     return res.status(400).json({
       success: false,

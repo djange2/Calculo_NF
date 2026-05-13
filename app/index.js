@@ -71,7 +71,6 @@ async function proxyAPI(endpoint, req, res) {
 }
 
 app.post('/calcular',          requireAuth, (req, res) => proxyAPI('/api/calcular',           req, res));
-app.post('/calcular-multiplos',requireAuth, (req, res) => proxyAPI('/api/calcular-multiplos', req, res));
 app.post('/calcular-inverso',  requireAuth, (req, res) => proxyAPI('/api/calcular-inverso',   req, res));
 
 app.listen(PORT, () => {
