@@ -49,7 +49,6 @@ app.get('/logout', (req, res) => {
 
 // ── Rotas protegidas ──────────────────────────────────────
 app.get('/calculo',   requireAuth, (req, res) => res.render('calculo',   { user: req.session.user }));
-app.get('/multiplos', requireAuth, (req, res) => res.render('multiplos', { user: req.session.user }));
 app.get('/inverso',   requireAuth, (req, res) => res.render('inverso',   { user: req.session.user }));
 app.get('/sobre',     requireAuth, (req, res) => res.render('sobre',     { user: req.session.user }));
 app.get('/help',      requireAuth, (req, res) => res.render('help',      { user: req.session.user }));
