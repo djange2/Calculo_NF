@@ -80,8 +80,37 @@ function calcularNFInverso(dados) {
   };
 }
 
+function compararAliquotas(dados) {
+
+  const {
+    valorProduto = 0,
+    cenarioA = {},
+    cenarioB = {},
+  } = dados;
+
+  if (valorProduto <= 0) throw new Error('Valor do produto inválido');
+
+  const resultadoA = calcularNF({ valorProduto, icms: 0, ipi: 0, pis: 0, cofins: 0, ...cenarioA });
+  const resultadoB = calcularNF({ valorProduto, icms: 0, ipi: 0, pis: 0, cofins: 0, ...cenarioB });
+
+  const diferencaTotal      = Number((resultadoB.total - resultadoA.total).toFixed(2));
+  const diferencaPercentual = Number(((diferencaTotal / resultadoA.total) * 100).toFixed(2));
+
+  return {
+    valorProduto:  Number(valorProduto.toFixed(2)),
+    cenarioA:      resultadoA,
+    cenarioB:      resultadoB,
+    comparacao: {
+      diferencaTotal,
+      diferencaPercentual,
+      maisVantajoso: diferencaTotal < 0 ? 'B' : diferencaTotal > 0 ? 'A' : 'empate',
+    },
+  };
+}
+
 module.exports = {
   calcularNF,
   calcularNFInverso,
+  compararAliquotas,
   TABELA,
 };
