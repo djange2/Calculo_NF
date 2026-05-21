@@ -50,6 +50,7 @@ app.get('/logout', (req, res) => {
 // ── Rotas protegidas ──────────────────────────────────────
 app.get('/calculo',   requireAuth, (req, res) => res.render('calculo',   { user: req.session.user }));
 app.get('/inverso',   requireAuth, (req, res) => res.render('inverso',   { user: req.session.user }));
+app.get('/comparar',  requireAuth, (req, res) => res.render('comparar',  { user: req.session.user }));
 app.get('/sobre',     requireAuth, (req, res) => res.render('sobre',     { user: req.session.user }));
 app.get('/help',      requireAuth, (req, res) => res.render('help',      { user: req.session.user }));
 
@@ -69,8 +70,9 @@ async function proxyAPI(endpoint, req, res) {
   }
 }
 
-app.post('/calcular',          requireAuth, (req, res) => proxyAPI('/api/calcular',           req, res));
-app.post('/calcular-inverso',  requireAuth, (req, res) => proxyAPI('/api/calcular-inverso',   req, res));
+app.post('/calcular',          requireAuth, (req, res) => proxyAPI('/NF/calcular',           req, res));
+app.post('/calcular-inverso',  requireAuth, (req, res) => proxyAPI('/NF/calcular-inverso',    req, res));
+app.post('/comparar',          requireAuth, (req, res) => proxyAPI('/NF/comparar',             req, res));
 
 app.listen(PORT, () => {
   console.log(`App rodando: http://localhost:${PORT}`);

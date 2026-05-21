@@ -19,7 +19,7 @@ app.get('/health', (req, res) => {
 
 
 // retorna tabela padrão de impostos
-app.get('/api/tabelas', (req, res) => {
+app.get('/NF/tabelas', (req, res) => {
 
   const { TABELA } = require('./funcoes');
 
@@ -31,8 +31,8 @@ app.get('/api/tabelas', (req, res) => {
 });
 
 
-// POST /api/calcular
-app.post('/api/calcular', (req, res) => {
+// POST /NF/calcular
+app.post('/NF/calcular', (req, res) => {
 
   try {
 
@@ -65,7 +65,7 @@ app.post('/api/calcular', (req, res) => {
 
 });
 
-app.post('/api/calcular-inverso', (req, res) => {
+app.post('/NF/calcular-inverso', (req, res) => {
   try {
     const { calcularNFInverso } = require('./funcoes');
     if (!req.body || typeof req.body !== 'object') {
@@ -78,7 +78,7 @@ app.post('/api/calcular-inverso', (req, res) => {
   }
 });
 
-app.post('/api/comparar', (req, res) => {
+app.post('/NF/comparar', (req, res) => {
   try {
     const { compararAliquotas } = require('./funcoes');
     if (!req.body || typeof req.body !== 'object') {

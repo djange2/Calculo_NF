@@ -12,10 +12,10 @@ describe('GET /health', () => {
 
 });
 
-describe('GET /api/tabelas', () => {
+describe('GET /NF/tabelas', () => {
 
   test('deve retornar a tabela de alíquotas padrão', async () => {
-    const res = await request(app).get('/api/tabelas');
+    const res = await request(app).get('/NF/tabelas');
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBe(true);
     expect(res.body.data).toHaveProperty('icms');
@@ -27,11 +27,11 @@ describe('GET /api/tabelas', () => {
 
 });
 
-describe('POST /api/calcular', () => {
+describe('POST /NF/calcular', () => {
 
   test('deve calcular NF corretamente', async () => {
     const res = await request(app)
-      .post('/api/calcular')
+      .post('/NF/calcular')
       .send({ valorProduto: 1000, icms: 18, ipi: 5, pis: 1.65, cofins: 7.6 });
 
     expect(res.statusCode).toBe(200);
@@ -42,7 +42,7 @@ describe('POST /api/calcular', () => {
 
   test('deve retornar erro com valorProduto inválido', async () => {
     const res = await request(app)
-      .post('/api/calcular')
+      .post('/NF/calcular')
       .send({ valorProduto: 0, icms: 18, ipi: 5, pis: 1.65, cofins: 7.6 });
 
     expect(res.statusCode).toBe(400);
@@ -52,7 +52,7 @@ describe('POST /api/calcular', () => {
 
   test('deve retornar erro com imposto negativo', async () => {
     const res = await request(app)
-      .post('/api/calcular')
+      .post('/NF/calcular')
       .send({ valorProduto: 1000, icms: -5, ipi: 5, pis: 1.65, cofins: 7.6 });
 
     expect(res.statusCode).toBe(400);
@@ -61,7 +61,7 @@ describe('POST /api/calcular', () => {
 
   test('deve retornar erro com corpo vazio', async () => {
     const res = await request(app)
-      .post('/api/calcular')
+      .post('/NF/calcular')
       .send({});
 
     expect(res.statusCode).toBe(400);

@@ -97,11 +97,11 @@ describe('Unitário - compararAliquotas', () => {
 
 });
 
-describe('API - POST /api/comparar', () => {
+describe('API - POST /NF/comparar', () => {
 
   test('deve comparar dois cenários e retornar o mais vantajoso', async () => {
     const res = await request(app)
-      .post('/api/comparar')
+      .post('/NF/comparar')
       .send({
         valorProduto: 1000,
         cenarioA: { icms: 18, ipi: 5, pis: 1.65, cofins: 7.6 },
@@ -117,7 +117,7 @@ describe('API - POST /api/comparar', () => {
   test('deve retornar empate quando alíquotas são iguais', async () => {
     const aliquotas = { icms: 18, ipi: 5, pis: 1.65, cofins: 7.6 };
     const res = await request(app)
-      .post('/api/comparar')
+      .post('/NF/comparar')
       .send({ valorProduto: 2000, cenarioA: aliquotas, cenarioB: aliquotas });
 
     expect(res.statusCode).toBe(200);
@@ -126,7 +126,7 @@ describe('API - POST /api/comparar', () => {
 
   test('deve retornar erro com valorProduto inválido', async () => {
     const res = await request(app)
-      .post('/api/comparar')
+      .post('/NF/comparar')
       .send({
         valorProduto: 0,
         cenarioA: { icms: 18 },
@@ -140,7 +140,7 @@ describe('API - POST /api/comparar', () => {
 
   test('deve retornar erro com alíquota negativa', async () => {
     const res = await request(app)
-      .post('/api/comparar')
+      .post('/NF/comparar')
       .send({
         valorProduto: 1000,
         cenarioA: { icms: -5 },
@@ -153,7 +153,7 @@ describe('API - POST /api/comparar', () => {
 
   test('deve retornar erro com corpo vazio', async () => {
     const res = await request(app)
-      .post('/api/comparar')
+      .post('/NF/comparar')
       .send({});
 
     expect(res.statusCode).toBe(400);

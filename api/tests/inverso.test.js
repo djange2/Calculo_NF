@@ -38,11 +38,11 @@ describe('Unitário - calcularNFInverso', () => {
 
 });
 
-describe('API - POST /api/calcular-inverso', () => {
+describe('API - POST /NF/calcular-inverso', () => {
 
   test('deve retornar o valor original do produto', async () => {
     const res = await request(app)
-      .post('/api/calcular-inverso')
+      .post('/NF/calcular-inverso')
       .send({ totalNF: 1322.50, icms: 18, ipi: 5, pis: 1.65, cofins: 7.6 });
 
     expect(res.statusCode).toBe(200);
@@ -52,7 +52,7 @@ describe('API - POST /api/calcular-inverso', () => {
 
   test('deve retornar erro com totalNF inválido', async () => {
     const res = await request(app)
-      .post('/api/calcular-inverso')
+      .post('/NF/calcular-inverso')
       .send({ totalNF: 0, icms: 18, ipi: 5, pis: 1.65, cofins: 7.6 });
 
     expect(res.statusCode).toBe(400);
